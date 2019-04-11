@@ -36,7 +36,7 @@ def get_weight(winner):
     elif winner == PLAYER:
         return -1000
     else:
-        return 0
+        return 10
 
 
 def compute_weight(board, deepness):
