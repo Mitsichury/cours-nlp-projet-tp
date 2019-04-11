@@ -89,7 +89,7 @@ def find_winner(game_board):
 
 def max_weight(board_p, deepness):
     print("max_weight")
-    display(board_p)
+    # display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board), -1
@@ -125,7 +125,7 @@ def copy(board_p):
 
 def min_weight(board_p, deepness):
     print("min_weight")
-    display(board_p)
+    # display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board), -1
