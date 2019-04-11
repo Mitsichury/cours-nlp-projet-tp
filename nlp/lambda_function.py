@@ -36,13 +36,31 @@ def cell_number_to_slot(cell_number):
     return slots[cell_number]
 
 
+def format_map(map):
+    str_map = ""
+    i = 0
+    while i < len(map):
+        if i % 3 == 0:
+            str_map += "<br>"
+        str_map += str(map[i])
+        i += 1
+    return str_map
+
+
 def handle_play(event):
     ## ----- TODO : Build the application logic with the backend and answer to the user ----- ##
     cell = event['currentIntent']['slots']["Choice"]
     cell_index = cell_slot_to_number(cell)
-    message = "You want to play " + str(cell_index)
     data = {"move": cell_index}
     result = requests.put(URL, data=data)
+    message = "You want to play " + str(cell_index)
+    if result.status_code == 400:
+        message += "\n" + str(result.json()["message"])
+    else:
+        message += "\nCarte:" + format_map(result.json()["board"])
+        message += "\nplayer_move:" + result.json()["player_move"]
+        message += "\ncomputer_move:" + result.json()["computer_move"]
+        message += "\nwinner:" + result.json()["winner"]
     ## -------------------------------------------------------------------------------------- ##
 
     return {
@@ -52,7 +70,7 @@ def handle_play(event):
             'fulfillmentState': 'Fulfilled',
             'message': {
                 'contentType': 'PlainText',
-                'content': "Message:"+message+"\nCarte:"+str(result.json()["board"])
+                'content': "Message:" + message
             }
         }
     }

@@ -7,8 +7,8 @@ import sys
 
 from common.play import *
 
-PLAYER = 0
-COMPUTER = 1
+PLAYER = 3
+COMPUTER = 2
 
 class Board(Resource):
 
