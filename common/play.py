@@ -57,7 +57,7 @@ def compute_weight(board, deepness):
                 if tmp > value:
                     value = tmp
             board[i] = NOT_PLAYED
-            return value
+    return value
 
 
 def get_smart_move(board, player_number):
