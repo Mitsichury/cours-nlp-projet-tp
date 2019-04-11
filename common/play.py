@@ -101,7 +101,6 @@ def max_weight(board_p, deepness):
         tmp = min_weight(board, deepness - 1)
         if tmp > max_value:
             max_value = tmp
-        board[i] = -1
     return max_value
 
 def eval_weight(board):
@@ -133,7 +132,6 @@ def min_weight(board_p, deepness):
         tmp = max_weight(board, deepness - 1)
         if tmp < min_value:
             min_value = tmp
-        board[i] = -1
     return min_value
 
 
