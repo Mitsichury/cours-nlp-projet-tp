@@ -7,7 +7,7 @@ import requests
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-URL = "http://ec2-34-241-159-253.eu-west-1.compute.amazonaws.com:5001/board"
+URL = "http://ec2-63-33-198-73.eu-west-1.compute.amazonaws.com:5001/board"
 
 
 def cell_slot_to_number(cell_slot):

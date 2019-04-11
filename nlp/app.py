@@ -9,6 +9,7 @@ from common.play import *
 
 PLAYER = 0
 COMPUTER = 1
+NOT_PLAYED = -1
 
 
 class Board(Resource):

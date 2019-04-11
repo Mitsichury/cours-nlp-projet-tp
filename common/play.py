@@ -1,6 +1,6 @@
 import random
 
-from nlp.app import PLAYER, COMPUTER
+from nlp.app import PLAYER, COMPUTER, NOT_PLAYED
 
 
 def get_free_cells(board):
@@ -13,7 +13,7 @@ def get_free_cells(board):
         list -- integers representing the free cells
     """
 
-    return [index for index, value in enumerate(board) if value == -1]
+    return [index for index, value in enumerate(board) if value == NOT_PLAYED]
 
 
 def get_random_move(board, player_number):
@@ -30,6 +30,36 @@ def get_random_move(board, player_number):
     return random.choice(get_free_cells(board))
 
 
+def get_weight(winner):
+    if winner == COMPUTER:
+        return 1000
+    elif winner == PLAYER:
+        return -1000
+    else:
+        return 0
+
+
+def compute_weight(board, deepness):
+    value = 0
+    winner = find_winner(board)
+    if deepness == 0 or winner is not None:
+        return get_weight(winner)
+    for i in board:
+        if board[i] != NOT_PLAYED:
+            if deepness % 2 == 0:  # min
+                board[i] = PLAYER
+                tmp = compute_weight(board, deepness - 1)
+                if tmp < value:
+                    value = tmp
+            else:  # max
+                board[i] = COMPUTER
+                tmp = compute_weight(board, deepness - 1)
+                if tmp > value:
+                    value = tmp
+            board[i] = NOT_PLAYED
+            return value
+
+
 def get_smart_move(board, player_number):
     """Apply the min-max algorithm or another smart one to find next move
     
@@ -37,20 +67,17 @@ def get_smart_move(board, player_number):
         board {list} -- Reprensetation of the board
         player_number {int} -- Player
     """
-
-    ## ----- TODO : Use the minmax algorithm or another smart one to find the best move ----- ## 
     max_value = 0
     index_to_play = -1
     for i in get_free_cells(board):
-        maxV, index = min_weight(board, 8, i)
+        maxV = compute_weight(board, 8)
+        print("Max value for index" + str(index_to_play) + " is " + str(maxV))
         if maxV > max_value:
             max_value = maxV
             index_to_play = index_to_play
 
     print(index_to_play, max_value)
     return index_to_play
-
-    ##------------------------------------------------------------------------------------##
 
 
 def find_winner(game_board):
@@ -87,59 +114,6 @@ def find_winner(game_board):
             return winners[i]
     else:
         return winners[0]
-
-
-def max_weight(board_p, deepness, last_choice):
-    # print("max_weight")
-    display(board_p)
-    board = copy(board_p)
-    if deepness == 0 or find_winner(board) is not None:
-        return eval_weight(board), last_choice
-    max_value = -10000
-    max_index = last_choice
-    for i in get_free_cells(board):
-        board[i] = COMPUTER
-        tmp, index = min_weight(board, deepness - 1, i)
-        if tmp > max_value:
-            max_value = tmp
-            max_index = index
-        board[i] = -1
-    return max_value, max_index
-
-
-def eval_weight(board):
-    winner = find_winner(board)
-    if PLAYER == winner:
-        return -1000
-    elif COMPUTER == winner:
-        return 1000
-    else:
-        return 0
-
-
-def copy(board_p):
-    array = []
-    for v in board_p:
-        array.append(v)
-    return array
-
-
-def min_weight(board_p, deepness, last_choice):
-    # print("min_weight")
-    display(board_p)
-    board = copy(board_p)
-    if deepness == 0 or find_winner(board) is not None:
-        return eval_weight(board), last_choice
-    min_value = 10000
-    min_index = last_choice
-    for i in get_free_cells(board):
-        board[i] = PLAYER
-        tmp, index = max_weight(board, deepness - 1, i)
-        if tmp < min_value:
-            min_value = tmp
-            min_index = index
-        board[i] = -1
-    return min_value, min_index
 
 
 def display(board):
