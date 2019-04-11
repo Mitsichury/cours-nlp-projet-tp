@@ -36,13 +36,14 @@ def get_weight(winner):
     elif winner == PLAYER:
         return -1000
     else:
-        return 0
+        return -10
 
 
 def compute_weight(board, deepness):
     value = 0
     winner = find_winner(board)
     if deepness == 0 or winner is not None:
+        if deepness != 0 : print("###############################################path found before full###############################################")
         return get_weight(winner)
     for i in range(0, 8):
         if board[i] == NOT_PLAYED:
