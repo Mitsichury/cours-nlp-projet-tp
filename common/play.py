@@ -24,7 +24,7 @@ def get_random_move(board, player_number):
     """
 
     ## ----- TODO : Get a random move from the list of available cells ----- ##
-    pass
+    return board.index(-1)
     ## --------------------------------------------------------------------- ##
 
 def get_smart_move(board, player_number):

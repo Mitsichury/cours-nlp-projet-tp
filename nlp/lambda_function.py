@@ -1,10 +1,13 @@
 import logging
+import random
+
 from botocore.vendored import requests
+import requests
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-URL = "http://54.246.250.50:5001/board"
+URL = "http://ec2-34-241-159-253.eu-west-1.compute.amazonaws.com:5001/board"
 
 
 def cell_slot_to_number(cell_slot):
@@ -36,7 +39,10 @@ def cell_number_to_slot(cell_number):
 def handle_play(event):
     ## ----- TODO : Build the application logic with the backend and answer to the user ----- ##
     cell = event['currentIntent']['slots']["Choice"]
-    message = "You want to play " + str(cell)
+    cell_index = cell_slot_to_number(cell)
+    message = "You want to play " + str(cell_index)
+    data = {"move": cell_index}
+    result = requests.put(URL, data=data)
     ## -------------------------------------------------------------------------------------- ##
 
     return {
@@ -46,14 +52,14 @@ def handle_play(event):
             'fulfillmentState': 'Fulfilled',
             'message': {
                 'contentType': 'PlainText',
-                'content': message
+                'content': "Message:"+message+"\nCarte:"+str(result.json()["board"])
             }
         }
     }
 
 
 def handle_restart(event):
-    ## ----- TODO : Restart the game and answer to the user ----- ##
+    requests.delete(URL)
     return {
         'sessionAttributes': event['sessionAttributes'],
         'dialogAction': {
@@ -61,11 +67,10 @@ def handle_restart(event):
             'fulfillmentState': 'Fulfilled',
             'message': {
                 'contentType': 'PlainText',
-                'content': "Not done yet"
+                'content': "Done"
             }
         }
     }
-    ## ---------------------------------------------------------- ##
 
 
 def handle_default(event):
@@ -95,7 +100,7 @@ def lambda_handler(event, context):
 
     if event['currentIntent']['name'] == "inquire_choice":
         return handle_play(event)
-    elif event['currentIntent']['name'] == "Retry":
+    elif event['currentIntent']['name'] == "restart_game":
         return handle_restart(event)
     else:
         return handle_default(event)
