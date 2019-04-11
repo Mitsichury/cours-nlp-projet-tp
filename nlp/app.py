@@ -7,8 +7,8 @@ import sys
 
 from common.play import *
 
-PLAYER = 3
-COMPUTER = 2
+PLAYER = 0
+COMPUTER = 1
 
 class Board(Resource):
 
@@ -41,7 +41,7 @@ class Board(Resource):
         computer_move = None
 
         # Player plays
-        if int(args.move) in free_cells:  # TODO Send an error code
+        if int(args.move) in free_cells:
             player_move = int(args.move)
             self.board[player_move] = PLAYER
 
