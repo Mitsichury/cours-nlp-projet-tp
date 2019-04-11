@@ -42,7 +42,6 @@ def get_weight(winner):
 def compute_weight(board, deepness):
     value = 0
     winner = find_winner(board)
-    print("deepness: " + str(deepness))
     if deepness == 0 or winner is not None:
         return get_weight(winner)
     for i in range(0, 8):
@@ -52,11 +51,9 @@ def compute_weight(board, deepness):
                 tmp = compute_weight(board, deepness - 1)
                 if tmp < value:
                     value = tmp
-                print("tmp:" + str(tmp))
             else:  # max
                 board[i] = COMPUTER
                 tmp = compute_weight(board, deepness - 1)
-                print("tmp:" + str(tmp))
                 if tmp > value:
                     value = tmp
             board[i] = NOT_PLAYED
@@ -72,14 +69,14 @@ def get_smart_move(board, player_number):
     """
     max_value = 0
     index_to_play = -1
-    for i in range(0,8):
+    for i in range(0, 8):
         maxV = compute_weight(board, 8)
         print("Max value for index" + str(i) + " is " + str(maxV))
         if maxV > max_value:
             max_value = maxV
             index_to_play = index_to_play
 
-    print(index_to_play, max_value)
+    print("index to play:" + str(index_to_play) + " associated max value" + str(max_value))
     return index_to_play
 
 
