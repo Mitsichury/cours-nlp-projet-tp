@@ -94,7 +94,7 @@ def max_weight(board_p, deepness):
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board)
     max_value = -10000
-    for i in range(0, 8):
+    for i in get_free_cells(board):
         if board[i] == 0:
             board[i] = COMPUTER
             tmp = min_weight(board, deepness - 1)
@@ -125,7 +125,7 @@ def min_weight(board_p, deepness):
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board)
     min_value = 10000
-    for i in range(0, 8):
+    for i in get_free_cells(board):
         if board[i] == 0:
             board[i] = PLAYER
             tmp = max_weight(board, deepness - 1)
