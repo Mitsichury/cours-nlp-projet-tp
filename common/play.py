@@ -39,7 +39,7 @@ def get_smart_move(board, player_number):
     """
 
     ## ----- TODO : Use the minmax algorithm or another smart one to find the best move ----- ## 
-    max_value = -100000
+    max_value = 0
     index_to_play = -1
     for i in get_free_cells(board):
         maxV, index = min_weight(board, 8, i)
@@ -89,7 +89,7 @@ def find_winner(game_board):
 
 def max_weight(board_p, deepness, last_choice):
     # print("max_weight")
-    # display(board_p)
+    display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board), last_choice
@@ -124,7 +124,7 @@ def copy(board_p):
 
 def min_weight(board_p, deepness, last_choice):
     # print("min_weight")
-    # display(board_p)
+    display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board), last_choice
