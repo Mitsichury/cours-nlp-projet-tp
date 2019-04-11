@@ -96,7 +96,7 @@ def max_weight(board_p, deepness):
     max_value = -10000
     for i in range(0, 8):
         if board[i] == 0:
-            board[i] = 2
+            board[i] = COMPUTER
             tmp = min_weight(board, deepness - 1)
             if tmp > max_value:
                 max_value = tmp
@@ -127,7 +127,7 @@ def min_weight(board_p, deepness):
     min_value = 10000
     for i in range(0, 8):
         if board[i] == 0:
-            board[i] = 1
+            board[i] = PLAYER
             tmp = max_weight(board, deepness - 1)
             if tmp < min_value:
                 min_value = tmp
