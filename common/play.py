@@ -90,6 +90,8 @@ def find_winner(game_board):
 
 
 def max_weight(board_p, deepness):
+    print("max_weight")
+    display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board)
@@ -120,6 +122,8 @@ def copy(board_p):
 
 
 def min_weight(board_p, deepness):
+    print("min_weight")
+    display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board)
@@ -131,3 +135,10 @@ def min_weight(board_p, deepness):
             min_value = tmp
         board[i] = -1
     return min_value
+
+
+def display(board):
+    for index, value in enumerate(board):
+        print(value, sep="|")
+        if index%3 ==0:
+            print("------")
