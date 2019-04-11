@@ -140,5 +140,6 @@ def min_weight(board_p, deepness):
 def display(board):
     for index, value in enumerate(board):
         print(value, end="|")
-        if index % 3 == 0:
+        if index % 3 == 0 and index > 0:
             print("------")
+    print()
