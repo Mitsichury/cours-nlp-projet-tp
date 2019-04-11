@@ -1,5 +1,6 @@
 import random
 
+
 def get_free_cells(board):
     """Get the cells that are playable
     
@@ -11,6 +12,7 @@ def get_free_cells(board):
     """
 
     return [index for index, value in enumerate(board) if value == -1]
+
 
 def get_random_move(board, player_number):
     """Get a random move from the list of free cells
@@ -25,6 +27,7 @@ def get_random_move(board, player_number):
 
     return random.choice(get_free_cells(board))
 
+
 def get_smart_move(board, player_number):
     """Apply the min-max algorithm or another smart one to find next move
     
@@ -37,6 +40,7 @@ def get_smart_move(board, player_number):
     pass
     ##------------------------------------------------------------------------------------##
 
+
 def find_winner(b1):
     """Taken on https://pastebin.com/FKrbiuCc and adapted for our data format
     
@@ -47,7 +51,7 @@ def find_winner(b1):
         int -- None if there's no winner, else the player who won
     """
 
-    b = [b2+1 for b2 in b1]
+    b = [b2 + 1 for b2 in b1]
     board = [
         [b[0], b[1], b[2]],
         [b[3], b[4], b[5]],
@@ -56,7 +60,7 @@ def find_winner(b1):
     winners = {0: None, 1: 0, 2: 1}
 
     for i in range(1, 3):
- 
+
         if board[0] == [i, i, i] or board[1] == [i, i, i] or board[2] == [i, i, i]:  # horizontal wins
             return winners[i]
         elif board[0][0] == i and board[1][0] == i and board[2][0] == i:  # vertical first column
@@ -71,4 +75,3 @@ def find_winner(b1):
             return winners[i]
     else:
         return winners[0]
-

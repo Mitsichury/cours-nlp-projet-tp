@@ -2,17 +2,17 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 
 import sys
-[sys.path.append(i) for i in ['.', '..']]
 
+[sys.path.append(i) for i in ['.', '..']]
 
 from common.play import *
 
 PLAYER = 0
 COMPUTER = 1
 
-class Board(Resource):
 
-    board = [-1]*9
+class Board(Resource):
+    board = [-1] * 9
 
     def get(self):
         """Get the board state
@@ -22,8 +22,8 @@ class Board(Resource):
         """
 
         return {
-            "board": self.board
-        }, 200
+                   "board": self.board
+               }, 200
 
     def put(self):
         """Play a move
@@ -37,8 +37,6 @@ class Board(Resource):
         args = parser.parse_args()
 
         free_cells = get_free_cells(self.board)
-        player_move = None
-        computer_move = None
 
         # Player plays
         if int(args.move) in free_cells:
@@ -51,19 +49,19 @@ class Board(Resource):
                 self.board[computer_move] = COMPUTER
 
         else:
-            return{
-                "message": "The cell is already taken"
-            }, 400
+            return {
+                       "message": "The cell is already taken"
+                   }, 400
 
         # Check for a winner
         winner = find_winner(self.board)
 
         return {
-            "player_move": player_move,
-            "computer_move": computer_move,
-            "winner": winner,   
-            "board": self.board
-        }, 200
+                   "player_move": player_move,
+                   "computer_move": computer_move,
+                   "winner": winner,
+                   "board": self.board
+               }, 200
 
     def delete(self):
         """Reset board state
@@ -75,8 +73,8 @@ class Board(Resource):
         for i in range(len(self.board)):
             self.board[i] = -1
         return {
-            "board": self.board
-        }, 200
+                   "board": self.board
+               }, 200
 
 
 if __name__ == "__main__":
