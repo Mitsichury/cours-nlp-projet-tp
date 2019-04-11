@@ -50,6 +50,11 @@ class Board(Resource):
             if computer_move is not None:
                 self.board[computer_move] = COMPUTER
 
+        else:
+            return{
+                "message": "The cell is already taken"
+            }, 400
+
         # Check for a winner
         winner = find_winner(self.board)
 
