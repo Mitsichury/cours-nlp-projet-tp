@@ -51,9 +51,11 @@ def compute_weight(board, deepness):
                 tmp = compute_weight(board, deepness - 1)
                 if tmp < value:
                     value = tmp
+                print(tmp)
             else:  # max
                 board[i] = COMPUTER
                 tmp = compute_weight(board, deepness - 1)
+                print(tmp)
                 if tmp > value:
                     value = tmp
             board[i] = NOT_PLAYED
