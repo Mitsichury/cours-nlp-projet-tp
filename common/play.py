@@ -48,6 +48,7 @@ def compute_weight(board, deepness):
     if deepness == 0 or winner is not None:
         return get_weight(winner)
     for i in board:
+        print("index "+str(i)+" in deepness " + str(deepness))
         if board[i] == NOT_PLAYED:
             if deepness % 2 == 0:  # min
                 board[i] = PLAYER
