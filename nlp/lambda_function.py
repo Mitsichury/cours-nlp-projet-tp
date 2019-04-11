@@ -58,9 +58,9 @@ def handle_play(event):
         message += "\n" + str(result.json()["message"])
     else:
         message += "\nCarte:" + format_map(result.json()["board"])
-        message += "\nplayer_move:" + result.json()["player_move"]
-        message += "\ncomputer_move:" + result.json()["computer_move"]
-        message += "\nwinner:" + result.json()["winner"]
+        message += "\nplayer_move:" + str(result.json()["player_move"])
+        message += "\ncomputer_move:" + str(result.json()["computer_move"])
+        message += "\nwinner:" + str(result.json()["winner"])
     ## -------------------------------------------------------------------------------------- ##
 
     return {
