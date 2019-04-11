@@ -49,7 +49,7 @@ def compute_weight(board, deepness):
         return weight
     for i in range(0, 8):
         if board[i] == NOT_PLAYED:
-            if deepness % 2 == 0:  # min
+            if deepness % 2 != 0:  # min
                 board[i] = PLAYER
                 tmp = compute_weight(board, deepness - 1)
                 if tmp < value:
