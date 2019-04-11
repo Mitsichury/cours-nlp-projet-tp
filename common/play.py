@@ -44,6 +44,7 @@ def compute_weight(board, deepness):
     winner = find_winner(board)
     print("deepness: " + str(deepness))
     display(board)
+    print("notplayed count"+ str(board.count(NOT_PLAYED)))
     if deepness == 0 or winner is not None:
         return get_weight(winner)
     for i in board:
