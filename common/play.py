@@ -87,18 +87,17 @@ def find_winner(game_board):
         return winners[0]
 
 
-def max_weight(board_p, deepness):
+def max_weight(board_p, deepness, last_choice):
     # print("max_weight")
     # display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
-        return eval_weight(board), -1
+        return eval_weight(board), last_choice
     max_value = -10000
     max_index = -1
     for i in get_free_cells(board):
         board[i] = COMPUTER
-        tmp, index = min_weight(board, deepness - 1)
-        if index == -1: index = i
+        tmp, index = min_weight(board, deepness - 1, i)
         if tmp > max_value:
             max_value = tmp
             max_index = index
@@ -123,18 +122,17 @@ def copy(board_p):
     return array
 
 
-def min_weight(board_p, deepness):
+def min_weight(board_p, deepness, last_choice):
     # print("min_weight")
     # display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
-        return eval_weight(board), -1
+        return eval_weight(board), last_choice
     min_value = 10000
     min_index = -1
     for i in get_free_cells(board):
         board[i] = PLAYER
-        tmp, index = max_weight(board, deepness - 1)
-        if index == -1: index = i
+        tmp, index = max_weight(board, deepness - 1, i)
         if tmp < min_value:
             min_value = tmp
             min_index = index
