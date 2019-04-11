@@ -23,9 +23,7 @@ def get_random_move(board, player_number):
         int -- A free cell
     """
 
-    ## ----- TODO : Get a random move from the list of available cells ----- ##
-    return board.index(-1)
-    ## --------------------------------------------------------------------- ##
+    return random.choice(board)
 
 def get_smart_move(board, player_number):
     """Apply the min-max algorithm or another smart one to find next move
