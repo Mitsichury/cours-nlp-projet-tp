@@ -42,7 +42,7 @@ def get_weight(winner):
 def compute_weight(board, deepness):
     value = 0
     winner = find_winner(board)
-    print("deepness: "+ deepness)
+    print("deepness: " + str(deepness))
     if deepness == 0 or winner is not None:
         display(board)
         return get_weight(winner)
@@ -53,11 +53,11 @@ def compute_weight(board, deepness):
                 tmp = compute_weight(board, deepness - 1)
                 if tmp < value:
                     value = tmp
-                print(tmp)
+                print("tmp:" + str(tmp))
             else:  # max
                 board[i] = COMPUTER
                 tmp = compute_weight(board, deepness - 1)
-                print(tmp)
+                print("tmp:" + str(tmp))
                 if tmp > value:
                     value = tmp
             board[i] = NOT_PLAYED
