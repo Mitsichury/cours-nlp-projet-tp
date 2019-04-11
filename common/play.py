@@ -92,7 +92,7 @@ def max_weight(board_p, deepness):
     display(board_p)
     board = copy(board_p)
     if deepness == 0 or find_winner(board) is not None:
-        return eval_weight(board) -1
+        return eval_weight(board), -1
     max_value = -10000
     max_index = -1
     for i in get_free_cells(board):
