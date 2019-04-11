@@ -1,5 +1,7 @@
 import random
 
+from nlp.app import PLAYER, COMPUTER
+
 
 def get_free_cells(board):
     """Get the cells that are playable
@@ -37,11 +39,21 @@ def get_smart_move(board, player_number):
     """
 
     ## ----- TODO : Use the minmax algorithm or another smart one to find the best move ----- ## 
-    pass
+    max_value = -100000
+    index_to_play = -1
+    for i in get_free_cells(board):
+        maxV = max_weight(board, deepness=8)
+        if maxV > max_value:
+            max_value = maxV
+            index_to_play = i
+    return index_to_play
+
+                
+
     ##------------------------------------------------------------------------------------##
 
 
-def find_winner(b1):
+def find_winner(game_board):
     """Taken on https://pastebin.com/FKrbiuCc and adapted for our data format
     
     Arguments:
@@ -51,7 +63,7 @@ def find_winner(b1):
         int -- None if there's no winner, else the player who won
     """
 
-    b = [b2 + 1 for b2 in b1]
+    b = [b2 + 1 for b2 in game_board]
     board = [
         [b[0], b[1], b[2]],
         [b[3], b[4], b[5]],
@@ -75,3 +87,49 @@ def find_winner(b1):
             return winners[i]
     else:
         return winners[0]
+
+
+def max_weight(board_p, deepness):
+    board = copy(board_p)
+    if deepness == 0 or find_winner(board) is not None:
+        return eval_weight(board)
+    max_value = -10000
+    for i in range(0, 8):
+        if board[i] == 0:
+            board[i] = 2
+            tmp = min_weight(board, deepness - 1)
+            if tmp > max_value:
+                max_value = tmp
+            board[i] = 0
+    return max_value
+
+def eval_weight(board):
+    winner = find_winner(board)
+    if PLAYER == winner:
+        return -1000
+    elif COMPUTER == winner:
+        return 1000
+    else:
+        return 0
+
+
+def copy(board_p):
+    array = []
+    for v in board_p:
+        array.append(v)
+    return array
+
+
+def min_weight(board_p, deepness):
+    board = copy(board_p)
+    if deepness == 0 or find_winner(board) is not None:
+        return eval_weight(board)
+    min_value = 10000
+    for i in range(0, 8):
+        if board[i] == 0:
+            board[i] = 1
+            tmp = max_weight(board, deepness - 1)
+            if tmp < min_value:
+                min_value = tmp
+            board[i] = 0
+    return min_value

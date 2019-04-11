@@ -44,7 +44,8 @@ class Board(Resource):
             self.board[player_move] = PLAYER
 
             # Computer plays
-            computer_move = get_random_move(self.board, COMPUTER)
+            # computer_move = get_random_move(self.board, COMPUTER)
+            computer_move = get_smart_move(self.board, COMPUTER)
             if computer_move is not None:
                 self.board[computer_move] = COMPUTER
 
