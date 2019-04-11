@@ -42,13 +42,11 @@ def get_smart_move(board, player_number):
     max_value = -100000
     index_to_play = -1
     for i in get_free_cells(board):
-        maxV = min_weight(board, deepness=8)
+        maxV, index = min_weight(board, deepness=8)
         if maxV > max_value:
             max_value = maxV
-            index_to_play = i
+            index_to_play = index_to_play
     return index_to_play
-
-                
 
     ##------------------------------------------------------------------------------------##
 
@@ -96,12 +94,16 @@ def max_weight(board_p, deepness):
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board)
     max_value = -10000
+    max_index = -1
     for i in get_free_cells(board):
         board[i] = COMPUTER
-        tmp = min_weight(board, deepness - 1)
+        tmp, index = min_weight(board, deepness - 1)
         if tmp > max_value:
             max_value = tmp
-    return max_value
+            max_index = index
+        board[i] = -1
+    return max_value, max_index
+
 
 def eval_weight(board):
     winner = find_winner(board)
@@ -127,12 +129,15 @@ def min_weight(board_p, deepness):
     if deepness == 0 or find_winner(board) is not None:
         return eval_weight(board)
     min_value = 10000
+    min_index = -1
     for i in get_free_cells(board):
         board[i] = PLAYER
-        tmp = max_weight(board, deepness - 1)
+        tmp, index = max_weight(board, deepness - 1)
         if tmp < min_value:
             min_value = tmp
-    return min_value
+            min_index = index
+        board[i] = -1
+    return min_value, min_index
 
 
 def display(board):
