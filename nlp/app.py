@@ -1,6 +1,10 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 
+import sys
+[sys.path.append(i) for i in ['.', '..']]
+
+
 from common.play import *
 
 PLAYER = 0
