@@ -46,6 +46,8 @@ def get_smart_move(board, player_number):
         if maxV > max_value:
             max_value = maxV
             index_to_play = index_to_play
+
+    print(index_to_play, max_value)
     return index_to_play
 
     ##------------------------------------------------------------------------------------##
