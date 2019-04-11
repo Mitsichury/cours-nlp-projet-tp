@@ -42,7 +42,7 @@ def get_smart_move(board, player_number):
     max_value = -100000
     index_to_play = -1
     for i in get_free_cells(board):
-        maxV, index = min_weight(board, deepness=8)
+        maxV, index = min_weight(board, 8, i)
         if maxV > max_value:
             max_value = maxV
             index_to_play = index_to_play
