@@ -4,59 +4,38 @@ from flask_restful import Api, Resource, reqparse
 import sys
 
 [sys.path.append(i) for i in ['.', '..']]
-
 from common.play import *
 
-PLAYER = 0
-COMPUTER = 1
-NOT_PLAYED = -1
+HUMAN = -1
+COMPUTER = +1
+NOT_PLAYED = 0
 
 
 class Board(Resource):
-    board = [-1] * 9
+    board = [NOT_PLAYED] * 9
 
     def get(self):
-        """Get the board state
-        
-        Returns:
-            dict -- Contains the representation of the board
-        """
-
         return {
                    "board": self.board
                }, 200
 
     def put(self):
-        """Play a move
-        
-        Returns:
-            dict -- The state of the board, moves of the 2 players and a boolean to know wether or not there's a winner
-        """
-
         parser = reqparse.RequestParser()
         parser.add_argument("move")
         args = parser.parse_args()
 
-        free_cells = get_free_cells(self.board)
-
-        # Player plays
-        if int(args.move) in free_cells:
-            player_move = int(args.move)
-            self.board[player_move] = PLAYER
-
-            # Computer plays
-            # computer_move = get_random_move(self.board, COMPUTER)
-            computer_move = get_smart_move(self.board, COMPUTER)
-            if computer_move is not None:
-                self.board[computer_move] = COMPUTER
-
+        free_cells = empty_cells(self.board)
+        player_move = int(args.move)
+        if player_move in free_cells:
+            self.board[player_move] = HUMAN
+            computer_move = ai_turn(self.board)
+            self.display()
         else:
             return {
                        "message": "The cell is already taken"
                    }, 400
 
-        # Check for a winner
-        winner = find_winner(self.board)
+        winner = self.get_winner_name()
 
         return {
                    "player_move": player_move,
@@ -65,18 +44,33 @@ class Board(Resource):
                    "board": self.board
                }, 200
 
-    def delete(self):
-        """Reset board state
-        
-        Returns:
-            dict -- Contains the representation of the board
-        """
+    def get_winner_name(self):
+        if wins(self.board, COMPUTER):
+            return "computer"
+        elif wins(self.board, HUMAN):
+            return "human"
+        return "no one" if self.board.count(NOT_PLAYED) else "draw"
 
+    def delete(self):
         for i in range(len(self.board)):
-            self.board[i] = -1
+            self.board[i] = NOT_PLAYED
         return {
                    "board": self.board
                }, 200
+
+    def display(self):
+        for index, value in enumerate(self.board):
+            if index % 3 == 0:
+                print("")
+            print(self.format_value(value), end="|")
+        print()
+
+    def format_value(self, value):
+        if value == NOT_PLAYED:
+            return " "
+        elif value == COMPUTER:
+            return "O"
+        return "X"
 
 
 if __name__ == "__main__":
